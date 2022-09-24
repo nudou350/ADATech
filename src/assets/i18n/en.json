@@ -1,0 +1,12 @@
+{
+    "todo": "To Do",
+    "doing" : "Doing",
+    "done" : "Done",
+    "edit" : "Edit Task",
+    "create" : "Create Task",
+    "title": "Title",
+    "content" : "Content",
+    "cancel" : "Cancel",
+    "save" : "Save"
+
+}

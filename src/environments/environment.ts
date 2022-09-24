@@ -5,6 +5,13 @@
 export const environment = {
   production: false
 };
+export const user = {
+  login: "letscode",
+  senha: 'lets@123'
+}
+export const api = {
+  url : "http://localhost:5000"
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

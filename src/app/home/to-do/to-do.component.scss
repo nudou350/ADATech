@@ -1,0 +1,89 @@
+$todo-color : #6565ec;
+$doing-color : #ffc22a;
+$done-color:  #19ff19;
+
+.translate{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin : 0 1rem;
+    gap: 1rem;
+}
+@media screen and (max-width: 700px) {
+    .translate{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin : 0 1rem;
+        gap: 1rem;
+    }
+}
+.img-size{
+    width: 50px;
+    height: 30px;
+    margin: 1rem;
+}
+.drag-drop-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: top;
+    flex-wrap: wrap;
+}
+.title{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > p {
+        cursor: default;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    > mat-icon{
+        font-size: 2rem;
+    }
+    
+}
+.drag-drop-list{
+    min-width: 22rem;
+    box-sizing: border-box;
+    min-height: 80vh;
+    border: 1px solid rgb(180, 180, 180);
+    &.todo{
+        background-color: $todo-color
+    }
+    &.doing{
+        background-color: $doing-color
+    }
+    &.done{
+        background-color: $done-color
+    }
+}
+.card-container{
+    margin: 20px 0;
+
+
+}
+.flex-icons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.btn-click {
+    cursor: pointer;
+}
+.drag-drop-item{
+    margin: 5rem 1rem;
+    box-sizing: border-box;
+}
+
+.add-card{
+    position:fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    margin-bottom: 1rem;
+    height: 100px;
+    cursor: pointer;
+}

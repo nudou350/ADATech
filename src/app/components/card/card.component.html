@@ -1,0 +1,14 @@
+<mat-card class="mat-elevation-z7">
+    <mat-card-title class="card-title">{{titulo}}</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">{{conteudo}}</mat-card-subtitle>
+    <mat-card-actions>
+        <div class="flex-icons">
+            <div class="btn-click" (click)="editCard()">
+                <mat-icon>edit</mat-icon>
+            </div>
+            <div class="btn-click" (click)="deleteCard()">
+                <mat-icon>delete</mat-icon>
+            </div>
+        </div>
+    </mat-card-actions>
+</mat-card>

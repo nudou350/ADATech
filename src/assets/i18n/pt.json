@@ -1,0 +1,12 @@
+{
+    "todo": "Iniciar",
+    "doing" : "Progresso",
+    "done" : "Finalizado",
+    "edit" : "Editar Tarefa",
+    "create" : "Criar Tarefa",
+    "title": "Titulo",
+    "content" : "Conteúdo",
+    "cancel" : "Cancelar",
+    "save" : "Salvar"
+
+}

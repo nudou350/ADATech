@@ -1,0 +1,32 @@
+
+@mixin mat-card {
+    mat-card{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: space-evenly;
+        min-height: 10rem;
+        width: 18rem;
+        cursor:grab;
+        //avoid running out of current layout and breaks the text
+        overflow-wrap: anywhere;
+        > .card-{
+            &title{
+                font-size: 1.5rem;
+            }
+            &subtitle{
+                font-size: 1rem;
+            }
+        }
+    }
+    .flex-icons {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    
+    .btn-click {
+        cursor: pointer;
+    }
+
+}
