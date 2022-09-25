@@ -16,10 +16,10 @@
                 <mat-icon>list</mat-icon>
             </div>
 
-            <div cdkDropList [cdkDropListData]="todo" class="drag-drop-list todo"
+            <div  #todoEl cdkDropList [cdkDropListData]="todo" class="drag-drop-list todo"
                 (cdkDropListDropped)="dropMultiList($event)">
                 
-                <div [id]="item.id" class="drag-drop-item" *ngFor="let item of todo" cdkDrag>
+                <div [id]="item.id" class="drag-drop-item"  (cdkDragEntered)="checkContainer($event)" *ngFor="let item of todo" cdkDrag>
 
                     <div class="drop-placeholder" *cdkDragPlaceholder>
                         <!-- creates a draggable place inside the layout -->
@@ -41,10 +41,10 @@
                 <p>{{'doing'|translate}}</p>
                 <mat-icon>clear_all</mat-icon>
             </div>
-            <div cdkDropList [cdkDropListData]="doing" class="drag-drop-list doing"
+            <div #doingEl cdkDropList [cdkDropListData]="doing" class="drag-drop-list doing"
                 (cdkDropListDropped)="dropMultiList($event)">
 
-                <div [id]="item.id" class="drag-drop-item" *ngFor="let item of doing" cdkDrag>
+                <div [id]="item.id" class="drag-drop-item"  (cdkDragEntered)="checkContainer($event)" *ngFor="let item of doing" cdkDrag>
 
                     <div class="drop-placeholder" *cdkDragPlaceholder></div>
                     <app-card class="app-card"
@@ -63,10 +63,10 @@
                 <p>{{'done'|translate}}</p>
                 <mat-icon>done</mat-icon>
             </div>
-            <div cdkDropList [cdkDropListData]="done" class=" drag-drop-list done"
+            <div #doneEl cdkDropList [cdkDropListData]="done" class=" drag-drop-list done"
                 (cdkDropListDropped)="dropMultiList($event)">
 
-                <div [id]="item.id" class="drag-drop-item" *ngFor="let item of done" cdkDrag>
+                <div [id]="item.id" class="drag-drop-item"  (cdkDragEntered)="checkContainer($event)" *ngFor="let item of done" cdkDrag>
 
                     <div class="drop-placeholder" *cdkDragPlaceholder></div>
                     <app-card class="app-card"

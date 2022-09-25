@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CardState } from './services/card.state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToDoComponent } from './home/to-do/to-do.component';
 import {MatCardModule} from '@angular/material/card';

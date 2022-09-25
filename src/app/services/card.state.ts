@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { api, user } from "src/environments/environment";
-import { BehaviorSubject, catchError, first, map, Observable, of, shareReplay, switchMap, take, tap } from "rxjs";
+import { BehaviorSubject, catchError, first, map, Observable, of, shareReplay, switchMap, take, tap, throwError } from "rxjs";
 import { Card } from "../models/ICard";
 import { User } from "../models/IUser"
 
@@ -9,7 +9,6 @@ import { User } from "../models/IUser"
     providedIn: 'root'
 })
 export class CardState {
-    private JWT = ""
     private cardSubject$: BehaviorSubject<any> = new BehaviorSubject(null)
     cards$: Observable<Card[] | null> = this.cardSubject$.asObservable()
     constructor(private http: HttpClient) {
@@ -21,25 +20,32 @@ export class CardState {
             first(),
             tap((response) => {
                 if (!!response) {
-                    this.JWT = response.toString()
+                    localStorage.setItem('jwt', JSON.stringify(response))
                 }
             }),
-            switchMap(res => this.getcards())
+            switchMap(res => this.getcards()),
+            catchError(err => throwError(err))
         )
     }
-    getHeader() : HttpHeaders{
-        const headers = new HttpHeaders()
+    getHeader() : HttpHeaders | undefined{
+        const jwt = localStorage.getItem('jwt')
+    
+        if(jwt){
+            const headers = new HttpHeaders()
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
-            .set("Authorization", `Bearer ${this.JWT}`)
-        return headers
+            .set("Authorization", `Bearer ${JSON.parse(jwt)}`)
+            return headers
+        }
+        return undefined
     }
 
     getcards(): Observable<Card[]> {
         return this.http.get<Card[]>(`${api.url}/cards`, { headers: this.getHeader() }).pipe(
             take(1),
             shareReplay(),
-            tap(val => this.cardSubject$.next(val))
+            tap(val => this.cardSubject$.next(val)),
+            catchError(err => of([]))
         )
     }
     addCard(card: Partial<Card>) : Observable<Card>{
@@ -48,7 +54,7 @@ export class CardState {
             tap((res) => {
                 if (typeof res?.id == "string") {
                     let oldValues: Card[] = this.cardSubject$.getValue()
-                    oldValues.push({
+                    oldValues?.push({
                         titulo: res.titulo,
                         conteudo: res.conteudo,
                         id: res.id,
@@ -56,6 +62,9 @@ export class CardState {
                     })
                     this.cardSubject$.next(oldValues)
                 }
+            }),
+            catchError(err => {
+                return of(err)
             })
         )
     }
@@ -66,7 +75,7 @@ export class CardState {
             tap((res) => {
                 if (typeof res?.id == "string") {
                     let oldValues: Card[] = this.cardSubject$.getValue()
-                    const result: Card[] = oldValues.map(item => {
+                    const result: Card[] = oldValues?.map(item => {
                         if (item.id == res.id) {
                             item = { ...res }
                         }
@@ -84,16 +93,21 @@ export class CardState {
     updateCardByDragging(id: string, lista: string) : Observable<Card> {
         const oldValues: Card[] = this.cardSubject$.getValue()
         let newCard: Card[] = []
-        const result: Card[] = oldValues.map(item => {
+        const result: Card[] = oldValues?.map(item => {
             if (item.id == id) {
                 item = { ...item, lista: lista }
-                newCard.push(item)
+                newCard?.push(item)
             }
             return item
         })
         this.cardSubject$.next(result)
         return this.http.put<Card>(`${api.url}/cards/${id}`, newCard[0], { headers: this.getHeader() }).pipe(
-            first()
+            first(),
+            catchError(err => {
+                //if request goes worng, replaces the state by the previous one
+                this.cardSubject$.next(oldValues)
+                return of(err)
+            })
         )
     }
 
@@ -106,6 +120,10 @@ export class CardState {
                     const result: Card[] = oldValues.filter((card: Card) => card.id != id)
                     this.cardSubject$.next(result)
                 }
+                if(res.length==0){
+                    this.cardSubject$.next([])
+                }
+                
             }),
             catchError(err => {
                 return of(err)
